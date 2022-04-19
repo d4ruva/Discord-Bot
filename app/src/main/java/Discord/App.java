@@ -3,19 +3,21 @@
  */
 package Discord;
 
+import java.util.Collections;
+
 import javax.security.auth.login.LoginException;
 
+import Events.MessageRecieved;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class App extends ListenerAdapter{
-    public static String token = "OTE5NDgyNzU3Njk5MjI3NjU4.YbWdDA.cL0NEtBELLoAqqVI8mbTy1c4bF0";
-
-
     public static void main(String[] args) throws LoginException
     {
         
@@ -25,14 +27,25 @@ public class App extends ListenerAdapter{
         // }
         // args[0] should be the token
         // We only need 2 intents in this bot. We only respond to messages in guilds and private channels.
-        // All other events will be disabled.
-        JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
+        // All other events will be disabled.S
+        JDA jda = JDABuilder.createLight(args[0], Collections.emptyList())
             .addEventListeners(new App())
-            .setActivity(Activity.playing("Type !ping"))
+            .setActivity(Activity.playing("Type /ping"))
             .build();
+        jda.upsertCommand("ping","Calculate the Ping of Bot").queue();
 
     }
 
+    @Override
+    public void onSlashCommandInteraction(SlashCommandInteractionEvent event)
+    {
+        if (!event.getName().equals("ping")) return; // make sure we handle the right command
+        long time = System.currentTimeMillis();
+        event.reply("Pong!").setEphemeral(true) // reply or acknowledge
+             .flatMap(v ->
+                 event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time) // then edit original
+             ).queue(); // Queue both reply and edit
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
@@ -47,9 +60,11 @@ public class App extends ListenerAdapter{
             System.out.printf("[%s][%s] %s: %s\n", event.getGuild().getName(),
                         event.getTextChannel().getName(), event.getMember().getEffectiveName(),
                         event.getMessage().getContentDisplay());
-                        
+
+            new MessageRecieved(event.getMessage());
         }
     }
      
+    
     
 }
