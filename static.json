@@ -1,0 +1,48 @@
+{
+    "messages": [
+        {
+            "message": "hello",
+            "response": "Hello from Bot"
+        },
+        {
+            "message": "hi",
+            "response": "Hi"
+        },
+        {
+            "message": "nope",
+            "response": "fap"
+        }
+    ],
+    "embeds": [
+        {
+            "title": "help",
+            "response": {
+                "title": "Help from bot",
+                "description": "Some useful commands",
+                "fields" : [
+                    {
+                        "name": "!hello",
+                        "value": "Greet the user."
+                    },
+                    {
+                        "name": "!some_random_bullshit",
+                        "value": "Haha lOL"
+                    }
+                ]
+            }
+        },
+        {
+            "title": "do",
+            "response": {
+                "title":"Doing Something Idiot",
+                "description": "Doing Something BAKA!",
+                "fields": [
+                    {
+                        "name": "!do",
+                        "value": "Hello World"
+                    }
+                ]
+            }
+        }
+    ]
+}
