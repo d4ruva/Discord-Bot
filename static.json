@@ -43,6 +43,19 @@
                     }
                 ]
             }
+        },
+        {
+            "title": "mute",
+            "response": {
+                "title": "Mute a person",
+                "description": "Shuts the f$ck up of a person",
+                "fields": [
+                    {
+                        "name": "!mute {person}",
+                        "value": "Shut the Fuck up!"
+                    }
+                ]
+            }
         }
     ]
 }

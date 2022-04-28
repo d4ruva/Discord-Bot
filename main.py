@@ -45,18 +45,25 @@ async def on_message(message):
 
     
     if message.content.split(" ")[0] == "uploadReply":
+        #split 
         command = message.content.split(" ")
-        append_data({"message": command[1], "response": command[2]})
+        append_data(
+                {
+                    "message": command[1], "response": command[2]
+                }
+            )
+
         await message.channel.send("uploaded successfully")
 
     for _ in responses['embeds']:
+        # Getting all the responses in embeds
         if message.content == _['title']:
             embed = discord.Embed(title= _['response']['title'], description=_['response']['description'])
             
             for field in _['response']['fields']:
                 embed.add_field(name=field['name'], value=field['value'])
                 
-            await message.channel.send(content=None, embed=embed)
+            await message.channel.send(content="embed", embed=embed)
 
 
 if __name__ == "__main__":
